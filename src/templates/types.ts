@@ -1,14 +1,16 @@
-import {WARNING_COMMENT} from "../constants";
+import { WARNING_COMMENT } from "../constants";
 
 export const typesTemplate = (content: SVGList, name: string, typescript: boolean) => {
     const list = clean(content);
-    const iconTypes = Object.keys(content).map(key => `"${key}"`);
+    const iconTypes = Object.keys(content).map((key) => `"${key}"`);
     const iconTypesArray = iconTypes.join(",\n\t");
 
     if (typescript) {
         const iconTypesUnion = iconTypes.join(" |\n\t");
 
-        return `${WARNING_COMMENT}
+        return `/* eslint-disable */
+
+${WARNING_COMMENT}
 
 type Attributes = Record<string, string | object>;
 
@@ -50,7 +52,7 @@ export const ${name}TypesArray = [
 
 const clean = (obj: SVGList): string => {
     const cleaned = JSON.stringify(obj, null, 4);
-    return cleaned.replace(/^[\t ]*"[^:\n\r]+(?<!\\)":/gm, match => {
+    return cleaned.replace(/^[\t ]*"[^:\n\r]+(?<!\\)":/gm, (match) => {
         return match.replace(/"/g, "");
     });
 };

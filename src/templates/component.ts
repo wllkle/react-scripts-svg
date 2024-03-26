@@ -1,13 +1,11 @@
-import {WARNING_COMMENT_FORCE} from "../constants";
+import { WARNING_COMMENT_FORCE } from "../constants";
 
-export const componentTemplate = (
-    name: string,
-    typescript: boolean,
-    propTypes: boolean
-): string => {
-    const ts = (value: string) => typescript ? value : "";
+export const componentTemplate = (name: string, typescript: boolean, propTypes: boolean): string => {
+    const ts = (value: string) => (typescript ? value : "");
 
-    return `${WARNING_COMMENT_FORCE}
+    return `/* eslint-disable */
+
+${WARNING_COMMENT_FORCE}
 ${ts("\n// @ts-nocheck\n")}
 import React${ts(", {ReactNode, DetailedHTMLProps, HTMLAttributes}")} from "react";${propTypes ? `\nimport PropTypes from "prop-types";` : ""}
 import {data${propTypes ? `, ${name}TypesArray` : ""}${ts(`, ${name}Types, INode`)}} from "./types";${ts(`\n\ninterface ${name}Props extends DetailedHTMLProps<HTMLAttributes<SVGElement>, any> {
